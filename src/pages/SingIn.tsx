@@ -1,8 +1,8 @@
 import React from 'react'
 import { styled } from '@mui/system';
-import FormControl from '@mui/material/FormControl';
-import FormGroup from '@mui/material/FormGroup'
-import { Button, TextField, Typography, Link } from '@mui/material';
+import { Button, TextField, Typography, Link, FormControl, FormGroup, InputLabel, FilledInput, InputAdornment, IconButton } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import { ModalBlock } from '../componets';
 
@@ -60,19 +60,29 @@ const MyButton = styled(Button)({
 	borderRadius: 20
 });
 
-function SingIn() {
+export const SingIn: React.FC = (): React.ReactElement => {
 
-	const [visibleModal, setVisibleModal] = React.useState(false);
+	const [visibleModal, setVisibleModal] = React.useState<'register' | 'login' | null>(null);
 
-	const handleClickOpen = () => {
-		setVisibleModal(true);
-	};
+	const openRegisterWindow = () => {
+		setVisibleModal('register')
+	}
+
+	const openLoginWindow = () => {
+		setVisibleModal('login')
+	}
 
 	const handleClose = () => {
-		setVisibleModal(false);
+		setVisibleModal(null);
 	};
 
+	const [showPassword, setShowPassword] = React.useState(false);
 
+	const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+	const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+	};
 
 	return (
 		<Wrapper>
@@ -84,22 +94,67 @@ function SingIn() {
 				<LoginSideTitle variant='h2'>Дізнайся актуальні новини уже сьогодні!</LoginSideTitle>
 				<Typography sx={{ mb: 2 }}><b>Приєднатися до friendHUB прямо зараз!</b></Typography>
 				<LoginSideAction>
-					<MyButton variant="contained" size="medium">Зареєструватися</MyButton>
-					<MyButton onClick={handleClickOpen} variant="outlined" size="medium">Увійти</MyButton>
+					<MyButton onClick={openRegisterWindow} variant="contained" size="medium">Зареєструватися</MyButton>
+					<MyButton onClick={openLoginWindow} variant="outlined" size="medium">Увійти</MyButton>
 				</LoginSideAction>
 			</LoginSide>
-			<ModalBlock title='Увійти в friendHUB' onClose={handleClose} visible={visibleModal}>
+			<ModalBlock title='Створити аккаунт' onClose={handleClose} visible={visibleModal === 'register'}>
+				<FormControl component='fieldset' fullWidth>
+					<FormGroup aria-label='position' row>
+						<TextField id="name" label="Name" variant="filled" type='email' fullWidth sx={{ mb: 2 }} />
+						<TextField id="email" label="Email" variant="filled" type='email' fullWidth sx={{ mb: 2 }} />
+						<FormControl fullWidth variant="filled" sx={{ mb: 3 }}>
+							<InputLabel htmlFor="register-password">Password</InputLabel>
+							<FilledInput
+								id="register-password"
+								type={showPassword ? 'text' : 'password'}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+											aria-label="toggle password visibility"
+											onClick={handleClickShowPassword}
+											onMouseDown={handleMouseDownPassword}
+											edge="end"
+										>
+											{showPassword ? <VisibilityOff /> : <Visibility />}
+										</IconButton>
+									</InputAdornment>
+								}
+							/>
+						</FormControl>
+						<MyButton variant="contained" fullWidth>Зареєструватися</MyButton>
+					</FormGroup>
+					<FormBottom sx={{ mt: 3, mb: 1 }} >Уже є профіль? <Link onClick={openLoginWindow} component="button" underline="none">Зайти</Link></FormBottom>
+				</FormControl>
+			</ModalBlock>
+			<ModalBlock title='Увійти в friendHUB' onClose={handleClose} visible={visibleModal === 'login'}>
 				<FormControl component='fieldset' fullWidth>
 					<FormGroup aria-label='position' row>
 						<TextField id="email" label="Email" variant="filled" type='email' fullWidth sx={{ mb: 2 }} />
-						<TextField id="password" label="Password" variant="filled" type='password' fullWidth sx={{ mb: 3 }} />
+						<FormControl fullWidth variant="filled" sx={{ mb: 3 }}>
+							<InputLabel htmlFor="login-password">Password</InputLabel>
+							<FilledInput
+								id="login-password"
+								type={showPassword ? 'text' : 'password'}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+											aria-label="toggle password visibility"
+											onClick={handleClickShowPassword}
+											onMouseDown={handleMouseDownPassword}
+											edge="end"
+										>
+											{showPassword ? <VisibilityOff /> : <Visibility />}
+										</IconButton>
+									</InputAdornment>
+								}
+							/>
+						</FormControl>
 						<MyButton variant="contained" fullWidth>Увійти</MyButton>
 					</FormGroup>
-					<FormBottom sx={{ mt: 3, mb: 1 }} >Не маєте профілю? <Link component="button" underline="none">Зареєструйтеся</Link></FormBottom>
+					<FormBottom sx={{ mt: 3, mb: 1 }} >Не маєте профілю? <Link onClick={openRegisterWindow} component="button" underline="none">Зареєструйтеся</Link></FormBottom>
 				</FormControl>
 			</ModalBlock>
 		</Wrapper>
 	)
 }
-
-export default SingIn

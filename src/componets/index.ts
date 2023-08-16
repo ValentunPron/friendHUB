@@ -1,3 +1,4 @@
 import { ModalBlock } from "./ModalBlock";
+import { Sidebar } from "./Sidebar/Sidebar";
 
-export { ModalBlock }
+export { ModalBlock, Sidebar }
