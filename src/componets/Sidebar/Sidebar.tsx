@@ -7,6 +7,7 @@ import MailIcon from '@mui/icons-material/MailOutline';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import HomeIcon from '@mui/icons-material/Home';
 import { Link as LinkMUI, Button, Typography, styled } from '@mui/material';
 
 const SidebarTitleLink = styled(LinkMUI)({
@@ -45,6 +46,12 @@ export const Sidebar: React.FC = (): React.ReactElement => {
 				<SidebarTitleLink variant='h2' color="primary" underline="none">friendHUB</SidebarTitleLink>
 			</Link>
 			<SidebarList>
+				<li>
+					<SidebardButton variant="text" fullWidth>
+						<HomeIcon />
+						<Typography variant='h6'>Головна</Typography>
+					</SidebardButton>
+				</li>
 				<li>
 					<SidebardButton variant="text" fullWidth>
 						<SearchIcon />

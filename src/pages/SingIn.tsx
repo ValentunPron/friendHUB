@@ -49,8 +49,11 @@ const LoginSideAction = styled('div')({
 });
 
 const FormBottom = styled(Typography)({
-	textAlign: 'center',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
 	'button': {
+		marginLeft: 5,
 		background: 'transparent',
 		color: 'primary'
 	}
