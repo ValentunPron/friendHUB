@@ -14,6 +14,14 @@ import { Link } from 'react-router-dom';
 const ContentPost = styled(Paper)({
 	maxWidth: 500,
 	margin: '0 auto',
+	transition: 'all .3s',
+	"&:hover": {
+		backgroundColor: '#f2f2f2',
+	},
+	'button': {
+		position: 'relative',
+		zIndex: 10
+	}
 })
 
 const PostHeader = styled(Box)({
@@ -78,79 +86,90 @@ interface IPost {
 
 export const Post: React.FC<IPost> = ({ avatarImage, name, data, description, image, likes, comments, share, views }): React.ReactElement => {
 	return (
-		<ContentPost variant="outlined">
-			<Box className='itemTop'>
-				<PostContainer>
-					<PostHeader>
-						<div className='itemLeft'>
-							<Link to="test">
-								<Avatar
-									sx={{ width: 40, height: 40 }}
-									alt={name}
-									src={avatarImage}
-								/>
-							</Link>
-							<PostLeftInfo>
-								<Link to="test"><LinkMUI variant='h4' color="#000" underline="hover">{name}</LinkMUI></Link>
-								<Typography variant='h4'>{data}</Typography>
-							</PostLeftInfo>
-						</div>
-						<Box>
-							<IconButton>
-								<MoreHorizIcon />
-							</IconButton>
-							<IconButton>
-								<CloseIcon />
-							</IconButton>
-						</Box>
-					</PostHeader>
+		<Link to="post">
+			<ContentPost variant="outlined">
+				<Box className='itemTop'>
+					<PostContainer>
+						<PostHeader>
+							<div className='itemLeft'>
+								<Link to="user">
+									<Avatar
+										sx={{
+											width: 40, height: 40,
+											transition: 'all 0.2s',
+											':hover': {
+												opacity: 0.85,
+											}
+										}}
+										alt={name}
+										src={avatarImage}
+									/>
+								</Link>
+								<PostLeftInfo>
+									<Link to="user"><LinkMUI variant='h4' color="#000" underline="hover">{name}</LinkMUI></Link>
+									<Typography variant='h4'>{data}</Typography>
+								</PostLeftInfo>
+							</div>
+							<Box>
+								<IconButton onClick={(e) => {
+									e.preventDefault();
+									alert(123);
+								}}>
+									<MoreHorizIcon />
+								</IconButton>
+								<IconButton>
+									<CloseIcon />
+								</IconButton>
+							</Box>
+						</PostHeader>
+						{
+							description
+								? <PostText>{description}</PostText>
+								: ''
+						}
+					</PostContainer>
 					{
-						description
-							? <PostText>{description}</PostText>
+						image
+							? <img
+								alt="content"
+								src={image}
+								width='100%' height='auto'
+							/>
 							: ''
 					}
-				</PostContainer>
-				{
-					image
-						? <img
-							alt="content"
-							src={image}
-							width='100%' height='auto'
-						/>
-						: ''
-				}
-				<PostContainer>
-					<Box sx={{ display: 'flex', justifyContent: 'space-between', }}>
-						<PostAction>
+					<PostContainer>
+						<Box sx={{ display: 'flex', justifyContent: 'space-between', }}>
+							<PostAction>
+								<IconButton>
+									<FavoriteBorderIcon />
+								</IconButton>
+								<span>{likes}</span>
+							</PostAction>
+							<PostAction>
+								<IconButton>
+									<ChatBubbleOutlineIcon />
+								</IconButton>
+								<span>{comments}</span>
+							</PostAction>
+							<PostAction>
+								<IconButton>
+									<ReplyIcon />
+								</IconButton>
+								<span>{share}</span>
+							</PostAction>
+							<PostAction>
+								<IconButton disabled >
+									<VisibilityIcon sx={{ fill: '#6f6f6f' }} />
+								</IconButton>
+								<span>{views}</span>
+							</PostAction>
 							<IconButton>
-								<FavoriteBorderIcon />
+								<IosShareIcon />
 							</IconButton>
-							<span>{likes}</span>
-						</PostAction>
-						<PostAction>
-							<IconButton>
-								<ChatBubbleOutlineIcon />
-							</IconButton>
-							<span>{comments}</span>
-						</PostAction>
-						<PostAction>
-							<IconButton>
-								<ReplyIcon />
-							</IconButton>
-							<span>{share}</span>
-						</PostAction>
-						<PostAction>
-							<IconButton>
-								<VisibilityIcon />
-							</IconButton>
-							<span>{views}</span>
-						</PostAction>
-						<IconButton>
-							<IosShareIcon />
-						</IconButton>
-					</Box>
-				</PostContainer>
-			</Box>
-		</ContentPost>
+						</Box>
+					</PostContainer>
+				</Box>
+			</ContentPost>
+		</Link>
 	)
 }

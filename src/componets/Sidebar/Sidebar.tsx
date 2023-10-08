@@ -1,6 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import MailIcon from '@mui/icons-material/MailOutline';
@@ -8,12 +6,7 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import HomeIcon from '@mui/icons-material/Home';
-import { Link as LinkMUI, Button, Typography, styled } from '@mui/material';
-
-const SidebarTitleLink = styled(LinkMUI)({
-	fontWeight: 800,
-	fontSize: '1.2rem',
-});
+import { Button, Typography, styled } from '@mui/material';
 
 const SidebardButton = styled(Button)({
 	color: '#000',
@@ -27,7 +20,25 @@ const SidebardButton = styled(Button)({
 		fontSize: '0.9rem'
 	},
 	'svg': {
-		fontSize: 20,
+		fontSize: '1.4rem',
+	},
+	"@media (max-width: 900px)": {
+		minWidth: 'auto',
+		padding: 6,
+		justifyContent: 'center',
+		'h6': {
+			display: 'none',
+			marginLeft: 0,
+		},
+		'svg': {
+			fontSize: '2.3rem'
+		}
+	},
+	"@media (max-width: 600px)": {
+		padding: 4,
+		'svg': {
+			fontSize: '2rem',
+		}
 	}
 })
 
@@ -35,16 +46,12 @@ const SidebarList = styled("ul")({
 	display: 'flex',
 	flexDirection: 'column',
 	gap: 4,
-	marginLeft: -16,
-	marginTop: 20,
+	marginLeft: -16
 })
 
 export const Sidebar: React.FC = (): React.ReactElement => {
 	return (
 		<>
-			<Link to='/'>
-				<SidebarTitleLink variant='h2' color="primary" underline="none">friendHUB</SidebarTitleLink>
-			</Link>
 			<SidebarList>
 				<li>
 					<SidebardButton variant="text" fullWidth>
