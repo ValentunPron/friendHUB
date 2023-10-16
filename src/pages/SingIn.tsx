@@ -7,38 +7,46 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { ModalBlock } from '../componets';
 
 const Wrapper = styled('div')({
-	display: 'flex',
+	display: 'grid',
+	gridTemplateColumns: '1fr 1fr',
+	gap: 20,
 	justifyContent: 'space-between',
 	height: '100vh',
-	alignItems: 'center'
+	alignItems: 'center',
+	'@media(max-width: 768px)': {
+		gridTemplateColumns: '1fr',
+		gap: 10,
+	}
 });
 
 const HelloSide = styled('section')({
-	flex: '0 0 50%',
 	maxWidth: 500,
 	margin: '0 auto'
 });
 
 const LoginSide = styled('section')({
-	flex: '0 0 50%',
 	maxWidth: 360,
 	margin: '0 auto'
 });
 
 const HelloSideTitle = styled(Typography)({
 	fontWeight: 800,
-	fontSize: 42
+	fontSize: '3.2rem'
 })
 
 const HelloSideText = styled(Typography)({
-	fontSize: 28,
-	marginTop: 12
+	fontSize: '2rem',
+	fontWeight: 500,
+	marginTop: 12,
+	'@media(max-width: 768px)': {
+		display: 'none'
+	}
 })
 
 const LoginSideTitle = styled(Typography)({
-	fontSize: 30,
+	fontSize: '2.3rem',
 	fontWeight: 700,
-	marginBottom: 40,
+	marginBottom: '1.25rem',
 });
 
 const LoginSideAction = styled('div')({
@@ -66,6 +74,23 @@ const MyButton = styled(Button)({
 export const SingIn: React.FC = (): React.ReactElement => {
 
 	const [visibleModal, setVisibleModal] = React.useState<'register' | 'login' | null>(null);
+	const [isMobile, setIsMobile] = React.useState(false);
+
+	React.useEffect(() => {
+		const mediaQuery = window.matchMedia('(max-width: 900px)');
+
+		setIsMobile(mediaQuery.matches);
+
+		const handleMediaQueryChange = (event: any) => {
+			setIsMobile(event.matches);
+		}
+
+		mediaQuery.addEventListener('change', handleMediaQueryChange);
+
+		return () => {
+			mediaQuery.addEventListener('change', handleMediaQueryChange);
+		}
+	}, [])
 
 	const openRegisterWindow = () => {
 		setVisibleModal('register')
@@ -130,8 +155,8 @@ export const SingIn: React.FC = (): React.ReactElement => {
 					<FormBottom sx={{ mt: 3, mb: 1 }} >Уже є профіль? <Link onClick={openLoginWindow} component="button" underline="none">Зайти</Link></FormBottom>
 				</FormControl>
 			</ModalBlock>
-			<ModalBlock title='Увійти в friendHUB' onClose={handleClose} visible={visibleModal === 'login'}>
-				<FormControl component='fieldset' fullWidth>
+			<ModalBlock title='Увійти в friendHUB' onClose={handleClose} visible={visibleModal === 'login'} >
+				<FormControl component='fieldset' fullWidth >
 					<FormGroup aria-label='position' row>
 						<TextField id="email" label="Email" variant="filled" type='email' fullWidth sx={{ mb: 2 }} />
 						<FormControl fullWidth variant="filled" sx={{ mb: 3 }}>

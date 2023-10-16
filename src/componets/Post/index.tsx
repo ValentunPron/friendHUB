@@ -12,7 +12,7 @@ import IosShareIcon from '@mui/icons-material/IosShare';
 import { Link } from 'react-router-dom';
 
 const ContentPost = styled(Paper)({
-	maxWidth: 500,
+	maxWidth: 550,
 	margin: '0 auto',
 	transition: 'all .3s',
 	"&:hover": {
@@ -86,8 +86,8 @@ interface IPost {
 
 export const Post: React.FC<IPost> = ({ avatarImage, name, data, description, image, likes, comments, share, views }): React.ReactElement => {
 	return (
-		<Link to="post">
-			<ContentPost variant="outlined">
+		<ContentPost variant="outlined">
+			<Link to="post">
 				<Box className='itemTop'>
 					<PostContainer>
 						<PostHeader>
@@ -169,7 +169,7 @@ export const Post: React.FC<IPost> = ({ avatarImage, name, data, description, im
 						</Box>
 					</PostContainer>
 				</Box>
-			</ContentPost>
-		</Link>
+			</Link>
+		</ContentPost>
 	)
 }

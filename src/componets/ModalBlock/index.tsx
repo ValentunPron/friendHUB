@@ -24,7 +24,7 @@ export const ModalBlock: React.FC<IModalBlock> = ({ title, onClose, visible = fa
 			onClose={onClose}
 			aria-labelledby="customized-dialog-title"
 			fullWidth
-			style={{ maxWidth: 560, margin: '0 auto' }}
+			style={{ maxWidth: '560px', margin: '0 auto' }}
 		>
 			<DialogTitle sx={{ m: 0, p: 2 }}>
 				<b>{title}</b>

@@ -21,7 +21,7 @@ const SidebarTitleLink = styled(LinkMUI)({
 
 const ContentHeader = styled(Paper)({
 	textAlign: 'center',
-	padding: '6px 0',
+	paddingTop: 6,
 	marginTop: 2,
 	'h6': {
 		fontWeight: 700,
@@ -42,19 +42,61 @@ const ContentHeader = styled(Paper)({
 	},
 })
 
+
 export const Home: React.FC = (): React.ReactElement => {
+
+	const [isTablet, setIsTablet] = React.useState<boolean>(false);
+	const [isMobile, setIsMobile] = React.useState<boolean>(false);
+	const [activeSidebar, setActiveSidebar] = React.useState<boolean>(true);
+
+	React.useEffect(() => {
+		const mediaQuery = window.matchMedia('(max-width: 900px)');
+
+		setIsTablet(mediaQuery.matches);
+
+		const handleMediaQueryChange = (event: any) => {
+			setIsTablet(event.matches);
+		}
+
+		mediaQuery.addEventListener('change', handleMediaQueryChange);
+
+		return () => {
+			mediaQuery.addEventListener('change', handleMediaQueryChange);
+		}
+	}, []);
+
+	React.useEffect(() => {
+		const mediaQuery = window.matchMedia('(max-width: 767px)');
+
+		setIsMobile(mediaQuery.matches);
+
+		const handleMediaQueryChange = (event: any) => {
+			setIsMobile(event.matches);
+			setActiveSidebar(false);
+		}
+
+		mediaQuery.addEventListener('change', handleMediaQueryChange);
+
+		return () => {
+			mediaQuery.addEventListener('change', handleMediaQueryChange);
+		}
+	}, []);
+
+
 
 	return (
 		<section style={{ margin: '10px 0' }}>
 			<Grid container spacing={2}>
-				<Hidden only={['xs']}>
-					<Grid item xs={'auto'}>
-						<Sidebar />
-					</Grid>
-				</Hidden>
+				<Grid item xs={isTablet ? 1 : 2}>
+					<Sidebar status={isMobile ? activeSidebar : true} />
+				</Grid>
 				<Grid item xs>
 					<ContentBody>
 						<ContentHeader variant="outlined" >
+							{isMobile
+								? <button onClick={() => setActiveSidebar(!activeSidebar)}>Click</button>
+								: ""
+							}
 							<Link to='/'>
 								<SidebarTitleLink variant='h2' color="primary" underline="none">friendHUB</SidebarTitleLink>
 							</Link>
@@ -72,11 +114,43 @@ export const Home: React.FC = (): React.ReactElement => {
 								image='https://images.thedirect.com/media/article_full/marvel-vs-dc-dcu-mcu.jpg'
 								likes={21} comments={5} share={2} views={120}
 							/>
+							<Post
+								avatarImage='https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=871&q=80'
+								name="Remy Sharp"
+								data="20 серпня 2023"
+								description='Сделай сам удивительные шлемы для поклонников комиксов Marvel и DC Comics'
+								image='https://images.thedirect.com/media/article_full/marvel-vs-dc-dcu-mcu.jpg'
+								likes={21} comments={5} share={2} views={120}
+							/>
+							<Post
+								avatarImage='https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=871&q=80'
+								name="Remy Sharp"
+								data="20 серпня 2023"
+								description='Сделай сам удивительные шлемы для поклонников комиксов Marvel и DC Comics'
+								image='https://images.thedirect.com/media/article_full/marvel-vs-dc-dcu-mcu.jpg'
+								likes={21} comments={5} share={2} views={120}
+							/>
+							<Post
+								avatarImage='https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=871&q=80'
+								name="Remy Sharp"
+								data="20 серпня 2023"
+								description='Сделай сам удивительные шлемы для поклонников комиксов Marvel и DC Comics'
+								image='https://images.thedirect.com/media/article_full/marvel-vs-dc-dcu-mcu.jpg'
+								likes={21} comments={5} share={2} views={120}
+							/>
+							<Post
+								avatarImage='https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=871&q=80'
+								name="Remy Sharp"
+								data="20 серпня 2023"
+								description='Сделай сам удивительные шлемы для поклонников комиксов Marvel и DC Comics'
+								image='https://images.thedirect.com/media/article_full/marvel-vs-dc-dcu-mcu.jpg'
+								likes={21} comments={5} share={2} views={120}
+							/>
 						</Box>
 					</ContentBody>
 				</Grid>
 				<Hidden only={['xs']}>
-					<Grid item xs={3}>
+					<Grid item xs={3} style={{ marginRight: 10 }}>
 						<SearchInput
 							startAdornment={<InputAdornment position="start"><SearchIcon /></InputAdornment>}
 							placeholder="Пошук в friendHUB"
