@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { MenuTags, Post, Sidebar } from '../componets';
 
 import SearchIcon from '@mui/icons-material/Search';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { SearchInput } from '../styles';
 import { Link } from 'react-router-dom';
 
@@ -20,6 +21,7 @@ const SidebarTitleLink = styled(LinkMUI)({
 });
 
 const ContentHeader = styled(Paper)({
+	position: 'relative',
 	textAlign: 'center',
 	paddingTop: 6,
 	marginTop: 2,
@@ -40,14 +42,18 @@ const ContentHeader = styled(Paper)({
 	'button span.active': {
 		borderBottom: '2px solid #1D9BF0',
 	},
-})
+});
 
 
 export const Home: React.FC = (): React.ReactElement => {
 
 	const [isTablet, setIsTablet] = React.useState<boolean>(false);
 	const [isMobile, setIsMobile] = React.useState<boolean>(false);
-	const [activeSidebar, setActiveSidebar] = React.useState<boolean>(true);
+	const [activeSidebar, setActiveSidebar] = React.useState<boolean>(false);
+
+	const closeSidebarWindow = () => {
+		setActiveSidebar(false)
+	}
 
 	React.useEffect(() => {
 		const mediaQuery = window.matchMedia('(max-width: 900px)');
@@ -87,14 +93,25 @@ export const Home: React.FC = (): React.ReactElement => {
 	return (
 		<section style={{ margin: '10px 0' }}>
 			<Grid container spacing={2}>
-				<Grid item xs={isTablet ? 1 : 2}>
-					<Sidebar status={isMobile ? activeSidebar : true} />
-				</Grid>
+				{
+					isMobile
+						? <Sidebar status={activeSidebar} isMobile={isMobile} closeSidebarWindow={closeSidebarWindow} />
+						: <Hidden only={['xs']}>
+							<Grid item xs={isTablet ? 1 : 2}>
+								<Sidebar status={true} closeSidebarWindow={closeSidebarWindow} />
+							</Grid>
+						</Hidden>
+				}
 				<Grid item xs>
 					<ContentBody>
 						<ContentHeader variant="outlined" >
 							{isMobile
-								? <button onClick={() => setActiveSidebar(!activeSidebar)}>Click</button>
+								?
+								<button
+									onClick={() => setActiveSidebar(!activeSidebar)}
+									style={{ background: 'none', position: 'absolute', top: 5, left: 5 }}>
+									<AccountCircleIcon fontSize='large' />
+								</button>
 								: ""
 							}
 							<Link to='/'>
