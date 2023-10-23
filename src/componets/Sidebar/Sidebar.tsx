@@ -59,6 +59,7 @@ const SidebarList = styled("ul")({
 	background: '#fff',
 	transition: 'all 0.4s',
 	zIndex: 15,
+	overflowY: 'auto',
 	'ul': {
 		display: 'flex',
 		flexDirection: 'column',
@@ -66,8 +67,13 @@ const SidebarList = styled("ul")({
 		gap: 4,
 		'@media (max-width: 767px)': {
 			gap: 8,
+			marginTop: 32,
 			paddinhRight: 20,
 		}
+	},
+	'@media (max-width: 767px)': {
+		flexDirection: 'column-reverse',
+		justifyContent: 'flex-end',
 	}
 })
 
@@ -153,8 +159,8 @@ export const Sidebar: React.FC<ISidebar> = ({ status = false, isMobile = false, 
 						</SidebardButton>
 					</li>
 				</ul>
-				<SidebardButton variant="text" fullWidth>
-					<AccountCircleIcon style={{ fontSize: '2.2rem' }} />
+				<SidebardButton variant="text" fullWidth style={{ marginTop: 10, }}>
+					<AccountCircleIcon style={{ fontSize: '2.4rem', }} sx={{ color: '#8f96a3' }} />
 					<UserInfo>
 						<span style={{ fontWeight: 700, color: '#000' }}>Valentun</span>
 						<span>@valentun</span>

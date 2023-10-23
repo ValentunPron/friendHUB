@@ -110,7 +110,7 @@ export const Home: React.FC = (): React.ReactElement => {
 								<button
 									onClick={() => setActiveSidebar(!activeSidebar)}
 									style={{ background: 'none', position: 'absolute', top: 5, left: 5 }}>
-									<AccountCircleIcon fontSize='large' />
+									<AccountCircleIcon fontSize='large' sx={{ color: '#8f96a3' }} />
 								</button>
 								: ""
 							}

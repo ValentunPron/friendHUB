@@ -4,7 +4,7 @@ import { Button, TextField, Typography, Link, FormControl, FormGroup, InputLabel
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import { ModalBlock } from '../componets';
+import { Login, ModalBlock, Register } from '../componets';
 
 const Wrapper = styled('div')({
 	display: 'grid',
@@ -56,16 +56,6 @@ const LoginSideAction = styled('div')({
 	width: '100%',
 });
 
-const FormBottom = styled(Typography)({
-	display: 'flex',
-	alignItems: 'center',
-	justifyContent: 'center',
-	'button': {
-		marginLeft: 5,
-		background: 'transparent',
-		color: 'primary'
-	}
-})
 
 const MyButton = styled(Button)({
 	borderRadius: 20
@@ -74,23 +64,6 @@ const MyButton = styled(Button)({
 export const SingIn: React.FC = (): React.ReactElement => {
 
 	const [visibleModal, setVisibleModal] = React.useState<'register' | 'login' | null>(null);
-	const [isMobile, setIsMobile] = React.useState(false);
-
-	React.useEffect(() => {
-		const mediaQuery = window.matchMedia('(max-width: 900px)');
-
-		setIsMobile(mediaQuery.matches);
-
-		const handleMediaQueryChange = (event: any) => {
-			setIsMobile(event.matches);
-		}
-
-		mediaQuery.addEventListener('change', handleMediaQueryChange);
-
-		return () => {
-			mediaQuery.addEventListener('change', handleMediaQueryChange);
-		}
-	}, [])
 
 	const openRegisterWindow = () => {
 		setVisibleModal('register')
@@ -108,10 +81,6 @@ export const SingIn: React.FC = (): React.ReactElement => {
 
 	const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-	const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-		event.preventDefault();
-	};
-
 	return (
 		<Wrapper>
 			<HelloSide>
@@ -127,61 +96,10 @@ export const SingIn: React.FC = (): React.ReactElement => {
 				</LoginSideAction>
 			</LoginSide>
 			<ModalBlock title='Створити аккаунт' onClose={handleClose} visible={visibleModal === 'register'}>
-				<FormControl component='fieldset' fullWidth>
-					<FormGroup aria-label='position' row>
-						<TextField id="name" label="Name" variant="filled" type='email' fullWidth sx={{ mb: 2 }} />
-						<TextField id="email" label="Email" variant="filled" type='email' fullWidth sx={{ mb: 2 }} />
-						<FormControl fullWidth variant="filled" sx={{ mb: 3 }}>
-							<InputLabel htmlFor="register-password">Password</InputLabel>
-							<FilledInput
-								id="register-password"
-								type={showPassword ? 'text' : 'password'}
-								endAdornment={
-									<InputAdornment position="end">
-										<IconButton
-											aria-label="toggle password visibility"
-											onClick={handleClickShowPassword}
-											onMouseDown={handleMouseDownPassword}
-											edge="end"
-										>
-											{showPassword ? <VisibilityOff /> : <Visibility />}
-										</IconButton>
-									</InputAdornment>
-								}
-							/>
-						</FormControl>
-						<MyButton variant="contained" fullWidth>Зареєструватися</MyButton>
-					</FormGroup>
-					<FormBottom sx={{ mt: 3, mb: 1 }} >Уже є профіль? <Link onClick={openLoginWindow} component="button" underline="none">Зайти</Link></FormBottom>
-				</FormControl>
+				<Register showPassword={showPassword} handleClickShowPassword={handleClickShowPassword} toggleWindow={openLoginWindow} />
 			</ModalBlock>
 			<ModalBlock title='Увійти в friendHUB' onClose={handleClose} visible={visibleModal === 'login'} >
-				<FormControl component='fieldset' fullWidth >
-					<FormGroup aria-label='position' row>
-						<TextField id="email" label="Email" variant="filled" type='email' fullWidth sx={{ mb: 2 }} />
-						<FormControl fullWidth variant="filled" sx={{ mb: 3 }}>
-							<InputLabel htmlFor="login-password">Password</InputLabel>
-							<FilledInput
-								id="login-password"
-								type={showPassword ? 'text' : 'password'}
-								endAdornment={
-									<InputAdornment position="end">
-										<IconButton
-											aria-label="toggle password visibility"
-											onClick={handleClickShowPassword}
-											onMouseDown={handleMouseDownPassword}
-											edge="end"
-										>
-											{showPassword ? <VisibilityOff /> : <Visibility />}
-										</IconButton>
-									</InputAdornment>
-								}
-							/>
-						</FormControl>
-						<MyButton variant="contained" fullWidth>Увійти</MyButton>
-					</FormGroup>
-					<FormBottom sx={{ mt: 3, mb: 1 }} >Не маєте профілю? <Link onClick={openRegisterWindow} component="button" underline="none">Зареєструйтеся</Link></FormBottom>
-				</FormControl>
+				<Login showPassword={showPassword} handleClickShowPassword={handleClickShowPassword} toggleWindow={openRegisterWindow} />
 			</ModalBlock>
 		</Wrapper>
 	)
